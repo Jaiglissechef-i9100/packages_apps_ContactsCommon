@@ -114,6 +114,7 @@ public abstract class ContactEntryListFragment<T extends ContactEntryListAdapter
 
     private int mDisplayOrder;
     private int mSortOrder;
+    private int mViewMode;
     private int mDirectoryResultLimit = DEFAULT_DIRECTORY_RESULT_LIMIT;
 
     private ContactPhotoManager mPhotoManager;
@@ -672,6 +673,17 @@ public abstract class ContactEntryListFragment<T extends ContactEntryListAdapter
         }
     }
 
+    public int getViewMode() {
+        return mViewMode;
+    }
+
+    public void setViewMode(int viewMode) {
+        mViewMode = viewMode;
+        if (mAdapter != null) {
+            mAdapter.setViewMode(viewMode);
+        }
+    }
+
     public void setDirectoryResultLimit(int limit) {
         mDirectoryResultLimit = limit;
     }
@@ -685,6 +697,11 @@ public abstract class ContactEntryListFragment<T extends ContactEntryListAdapter
 
         if (getSortOrder() != mContactsPrefs.getSortOrder()) {
             setSortOrder(mContactsPrefs.getSortOrder());
+            changed = true;
+        }
+
+        if (getViewMode() != mContactsPrefs.getViewMode()) {
+            setViewMode(mContactsPrefs.getViewMode());
             changed = true;
         }
 
@@ -767,6 +784,7 @@ public abstract class ContactEntryListFragment<T extends ContactEntryListAdapter
         mAdapter.setPinnedPartitionHeadersEnabled(mSearchMode);
         mAdapter.setContactNameDisplayOrder(mDisplayOrder);
         mAdapter.setSortOrder(mSortOrder);
+        mAdapter.setViewMode(mViewMode);
         mAdapter.setSectionHeaderDisplayEnabled(mSectionHeaderDisplayEnabled);
         mAdapter.setSelectionVisible(mSelectionVisible);
         mAdapter.setDirectoryResultLimit(mDirectoryResultLimit);
